@@ -13,8 +13,8 @@ router.get('/', (req, res) => {
     }
   })
     .then(dbCatData => {
-      if(!dbCatData) {
-        res.status(404).json({message: 'Could not locate category'});
+      if (!dbCatData) {
+        res.status(404).json({ message: 'Could not locate category' });
         return;
       }
       res.json(dbCatData);
@@ -38,8 +38,8 @@ router.get('/:id', (req, res) => {
     }
   })
     .then(dbCatData => {
-      if(!dbCatData) {
-        res.status(404).json({message: 'Could not locate category'});
+      if (!dbCatData) {
+        res.status(404).json({ message: 'Could not locate category' });
         return;
       }
       res.json(dbCatData);
@@ -55,11 +55,11 @@ router.post('/', (req, res) => {
   Category.create({
     category_name: req.body.category_name
   })
-  .then(dbCatData => res.json(dbCatData))
-  .catch(err => {
-    console.log(err);
-    res.status(500).json(err);
-  });
+    .then(dbCatData => res.json(dbCatData))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 router.put('/:id', (req, res) => {
@@ -70,8 +70,8 @@ router.put('/:id', (req, res) => {
     }
   })
     .then(dbCatData => {
-      if(!dbCatData) {
-        res.status(404).json({message: 'Could not locate category for this id'});
+      if (!dbCatData) {
+        res.status(404).json({ message: 'Could not locate category for this id' });
         return;
       }
       res.json(dbCatData);
@@ -84,6 +84,22 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
+  Category.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(dbCatData => {
+      if (!dbCatData) {
+        res.status(404).json({ message: 'No category found with that id.' });
+        return;
+      }
+      res.json(dbCatData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 module.exports = router;
